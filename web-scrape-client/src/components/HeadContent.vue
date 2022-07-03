@@ -9,7 +9,7 @@ function searchClick() {
 
 const scrapedJsonResult = JSON.stringify(
   {
-    price: '$100.29',
+    price: '$100.2',
     price_alt: '$25.99',
     list_price: '$29.99',
     savings: '',

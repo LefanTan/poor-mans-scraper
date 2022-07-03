@@ -1,0 +1,22 @@
+version: '3.8'
+
+## DEV docker-compose
+
+
+services:
+  client:
+    build: ./web-scrape-client
+    container_name: scraper-client
+    volumes:
+      - ./web-scrape-client:/app
+    ports:
+      - "3000:3000"
+  api:
+    build: ./WebScrapeApi
+    container_name: scraper-api
+    volumes:
+      - ./WebScrapeApi:/app
+    ports:
+      - "7153:7153"
+      - "5185:5185"
+
