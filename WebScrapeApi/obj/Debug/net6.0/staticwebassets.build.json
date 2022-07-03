@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "CPSYFDVPDuQ9jUFh5JWT8Do8rUrdY2+CRaXdrhwUZ/s=",
+  "Source": "WebScrapeApi",
+  "BasePath": "_content/WebScrapeApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -11,7 +11,14 @@ import HeadContent from '@/components/HeadContent.vue'
 <style>
 @import '@/assets/base.css';
 .wrapper {
-  margin-left: 3rem;
-  margin-right: 3rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .wrapper {
+    margin-left: 3rem;
+    margin-right: 3rem;
+  }
 }
 </style>
