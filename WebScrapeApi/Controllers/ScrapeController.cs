@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Playwright;
 
 namespace WebScrapeApi.Controllers
 {
@@ -7,9 +8,15 @@ namespace WebScrapeApi.Controllers
     public class ScrapeController : ControllerBase
     {
         [HttpGet("", Name = "scrape")]
-        public ActionResult ScrapeUrl()
+        public async Task<ActionResult> ScrapeUrlAsync([FromQuery(Name = "url")] string url)
         {
-            var response = new { message = "Success" };
+            using var playwright = await Playwright.CreateAsync();
+            await using var browser = await playwright.Chromium.LaunchAsync();
+            var page = await browser.NewPageAsync();
+            await page.GotoAsync(url);
+            var button = await page.Locator("button").InnerHTMLAsync();
+
+            var response = new { message = "Success", button };
             return Ok(response);
         }
     }
