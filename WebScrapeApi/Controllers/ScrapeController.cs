@@ -3,7 +3,7 @@ using Microsoft.Playwright;
 
 namespace WebScrapeApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ScrapeController : ControllerBase
     {
@@ -14,7 +14,7 @@ namespace WebScrapeApi.Controllers
             await using var browser = await playwright.Chromium.LaunchAsync();
             var page = await browser.NewPageAsync();
             await page.GotoAsync(url);
-            var button = await page.Locator("button").InnerHTMLAsync();
+            var button = await page.Locator("button >> nth=0").InnerHTMLAsync();
 
             var response = new { message = "Success", button };
             return Ok(response);
