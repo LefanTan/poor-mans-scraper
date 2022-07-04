@@ -25,7 +25,7 @@ public static class ScrapingHelper
         var priceText = await page.ExtractText(".priceToPay .a-offscreen");
         var priceAltText = await page.ExtractText(".apexPriceToPay .a-offscreen");
 
-        var listPriceText = await page.ExtractText(".basisPrice .a-offscreen");
+        var listPriceText = await page.ExtractText("[data-a-strike=true] .a-offscreen");
         var savingsText = await page.ExtractText(
             "#corePriceDisplay_desktop_feature_div .savingsPercentage"
         );
