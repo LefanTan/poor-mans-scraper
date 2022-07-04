@@ -1,4 +1,6 @@
 # Poor Man Web Scrape API
 
-1. `dotnet tool install --global Microsoft.Playwright.CLI`
-2. `playwright install`
+## Get Started 
+1. `Install .NET cli`
+2. `dotnet watch` to start developing in watch mode
+
