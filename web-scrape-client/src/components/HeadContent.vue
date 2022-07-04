@@ -1,32 +1,33 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import axiosInstance from './config/axios'
 
-const scrapeUrl = ref('')
+const scrapeUrl = ref(
+  'https://www.amazon.ca/Fullmosa-Quick-Release-Watch-Stainless/dp/B07F27GJH7?ref_=ast_sto_dp&th=1&psc=1'
+)
+
+const scrapedJsonResult = ref(0)
+const isLoading = ref(false)
 
 function searchClick() {
-  console.log('click')
+  isLoading.value = true
+  axiosInstance
+    .post('/scrape?url=' + encodeURIComponent(scrapeUrl.value))
+    .then((res) => {
+      scrapedJsonResult.value = res.data
+      isLoading.value = false
+    })
+    .catch((err) => {
+      console.error(err)
+      isLoading.value = false
+    })
 }
-
-const scrapedJsonResult = JSON.stringify(
-  {
-    price: '$100.2',
-    price_alt: '$25.99',
-    list_price: '$29.99',
-    savings: '',
-    savings_alt: '$4.00',
-    coupon: '',
-    subscribe_price: '$23.39 ($7.80 / Fl Oz)',
-    subscribe_period:
-      '2 weeks 3 weeks 1 month 5 weeks 6 weeks 7 weeks 2 months (Most common) 3 months 4 months 5 months 6 months',
-  },
-  null,
-  2
-)
 </script>
 
 <template>
   <form class="head-form">
     <h1>Poor Man's Scraper <img src="@/assets/logo.png" class="logo" /></h1>
+    <p>It's scrapin' time</p>
     <q-input
       v-model="scrapeUrl"
       type="url"
@@ -34,6 +35,7 @@ const scrapedJsonResult = JSON.stringify(
       class="search"
       input-class="search-input"
       outlined
+      :loading="isLoading"
       placeholder="Enter url to scrape..."
     >
       <template v-slot:after>
@@ -42,7 +44,9 @@ const scrapedJsonResult = JSON.stringify(
         </button> </template
     ></q-input>
   </form>
-  <pre class="code"><code>{{ scrapedJsonResult }}</code></pre>
+  <pre
+    class="code"
+  ><code>{{ scrapedJsonResult === 0 ? "Scrape a url to display something!" : scrapedJsonResult }}</code></pre>
 </template>
 
 <style scoped lang="less">

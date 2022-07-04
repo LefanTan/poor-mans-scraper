@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Playwright;
+using WebScrapeApi.Helpers;
+using WebScrapeApi.Models;
 
 namespace WebScrapeApi.Controllers
 {
@@ -7,17 +9,31 @@ namespace WebScrapeApi.Controllers
     [ApiController]
     public class ScrapeController : ControllerBase
     {
-        [HttpGet("", Name = "scrape")]
-        public async Task<ActionResult> ScrapeUrlAsync([FromQuery(Name = "url")] string url)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public ScrapeController(IHttpContextAccessor httpContextAccessor)
         {
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        [HttpPost("", Name = "scrape")]
+        public async Task<ActionResult> ScrapeUrlAsync([FromQuery(Name = "url")] string urlString)
+        {
+            if (urlString == null)
+            {
+                return BadRequest(new { message = "url query param missing", });
+            }
+
+            var url = new Uri(urlString);
+
             using var playwright = await Playwright.CreateAsync();
             await using var browser = await playwright.Chromium.LaunchAsync();
             var page = await browser.NewPageAsync();
-            await page.GotoAsync(url);
-            var button = await page.Locator("button >> nth=0").InnerHTMLAsync();
+            await page.GotoAsync(urlString);
 
-            var response = new { message = "Success", button };
-            return Ok(response);
+            AmazonData result = (AmazonData)await ScrapingHelper.ScrapeAmazon(page, urlString);
+
+            return Ok(result);
         }
     }
 }

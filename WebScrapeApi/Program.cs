@@ -1,7 +1,22 @@
+var AllowAllOrigings = "AllowAll";
+
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        AllowAllOrigings,
+        policy =>
+        {
+            policy.AllowAnyOrigin().AllowAnyHeader();
+        }
+    );
+});
 
 var app = builder.Build();
 
@@ -27,10 +42,11 @@ if (exitCode != 0)
 
 Console.WriteLine("Browsers installed");
 
-app.UseHttpsRedirection();
-
+// app.UseHttpsRedirection();
+app.UseHttpLogging();
 app.MapGet("/", () => "Welcome to Poor Man's Web Scraper!");
 
+app.UseCors(AllowAllOrigings);
 app.MapControllers();
 
 app.Run();

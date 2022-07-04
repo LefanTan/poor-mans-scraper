@@ -5,13 +5,16 @@
     "dev": "vite",
     "build": "run-p type-check build-only",
     "preview": "vite preview --port 4173",
+    "serve": "serve -s dist",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
     "@quasar/extras": "^1.14.2",
+    "axios": "^0.27.2",
     "quasar": "^2.7.4",
+    "serve": "^13.0.2",
     "vue": "^3.2.37",
     "vue-router": "^4.0.16"
   },

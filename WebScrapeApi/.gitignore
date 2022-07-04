@@ -5,6 +5,7 @@
 
 /obj
 /bin
+/out
 
 # User-specific files
 *.rsuser

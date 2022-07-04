@@ -1,22 +1,27 @@
 version: '3.8'
 
-## DEV docker-compose
+x-aws-vpc: ${AWS_VPC}
+x-aws-cluster: ${AWS_ECS_CLUSTER}
+x-aws-loadbalancer: ${AWS_ELB}
 
 
+## Production docker-compose
 services:
   client:
     build: ./web-scrape-client
     container_name: scraper-client
-    volumes:
-      - ./web-scrape-client:/app
-    ports:
-      - "3000:3000"
+    image: lefantan/scraper-client
+    expose:
+      - 3000
   api:
     build: ./WebScrapeApi
     container_name: scraper-api
-    volumes:
-      - ./WebScrapeApi:/app
+    image: lefantan/scraper-api
+    expose:
+      - 5000
+  server:
+    build: ./nginx
+    container_name: scraper-server
     ports:
-      - "7153:7153"
-      - "5185:5185"
+      - "443:443"
 
